@@ -11,6 +11,7 @@ gem 'bootstrap-sass'
 gem 'autoprefixer-rails'
 gem 'bcrypt'
 gem 'bootstrap_form'
+gem 'responders'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 group :development, :test do
