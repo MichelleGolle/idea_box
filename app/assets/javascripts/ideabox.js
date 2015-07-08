@@ -14,6 +14,8 @@ function fetchIdeas() {
       $(".delete").on("click", deleteIdea);
       $(".edit").on("click", editIdea);
       $(".update").on("click", updateIdea);
+      $(".thumbsUp").on("click", thumbsUpIdea);
+      $(".thumbsDown").on("click", thumbsDownIdea);
     }
   })
 }
@@ -28,14 +30,18 @@ function renderIdea(idea) {
   $("#ideas").append(
   "<div class='idea' data-id=" +
   idea.id +
-  "><h6>" +
+  "><h4>Title: </h4><p>" +
    idea.title +
-   "</h6><p>" +
+   "</p><h4>Body: </h4><p>" +
    idea.body +
+   "</p><h4>Quality: </h4><p>" +
+   idea.quality +
    "</p>" +
    '<div class="buttons">' +
    '<button class="edit">Edit</button>' +
    '<button class="delete">Delete</button>' +
+   '<button class="thumbsUp">Thumbs Up</button>' +
+   '<button class="thumbsDown">Thumbs Down</button>' +
    '<form class="edit-idea-form">' +
    '<label>Title</label>' +
    '<input type="text" placeholder="Title" class="idea-title">' +
@@ -75,7 +81,7 @@ function editIdea() {
     var $idea = $(this).parents('.idea');
     var $form = $(this).siblings('.edit-idea-form')
     if($form.is(':hidden')) {
-      var title = $idea.find('h6').text();
+      var title = $idea.find('h4').text();
       var body = $idea.find('p').text();
       $form.find('.idea-title').val(title);
       $form.find('.idea-body').val(body);
@@ -84,7 +90,6 @@ function editIdea() {
 }
 
 function updateIdea(idea) {
-  console.log($(this))
     var $idea = $(this).parents('.idea');
     var id = $idea.data('id');
     var $title = $(this).siblings('.idea-title').val();
@@ -95,9 +100,19 @@ function updateIdea(idea) {
       url: "api/v1/ideas" + id,
       data: {title: $title, body: $body},
       sucess: function(idea) {
-        $idea.find('h6').text(idea.title);
+        $idea.find('h4').text(idea.title);
         $idea.find('p').text(idea.body);
         $idea.find('form').hide();
       }
     });
+}
+
+function thumbsUpIdea() {
+  var $idea = $(this).parents('.idea');
+  var id = $idea.data('id');
+}
+
+function thumbsDownIdea() {
+  var $idea = $(this).parents('.idea');
+  var id = $idea.data('id');
 }
