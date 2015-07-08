@@ -1,21 +1,25 @@
 class Idea < ActiveRecord::Base
-  validates :title, presence: true
+  validates :title, presence: true,
+                    uniqueness: true
   validates :body, presence: true
-  enum quality: %w(swill plausible genius)
+
+  default_scope { order(updated_at: :desc) }
+
+  enum quality: { swill: 0, plausible: 1, genius: 2 }
 
   def thumbs_up
-    if self.quality == 0
-      self.quality = 1
+    if self.quality == "swill"
+      self.quality = "plausible"
     else
-      self.quality = 2
+      self.quality = "genius"
     end
   end
 
   def thumbs_down
-    if quality == 2
-      quality = 1
+    if self.quality == "genius"
+      self.quality = "plausible"
     else
-      quality = 0
+      self.quality = "swill"
     end
   end
 end
